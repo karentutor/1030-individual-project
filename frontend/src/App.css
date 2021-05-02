@@ -1,0 +1,379 @@
+body {
+	font-family: "Montserrat", sans-serif;
+}
+
+/* header */
+header {
+	height: 100vh;
+	background: linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.7)),
+		url(images/bear.jpg) no-repeat center center;
+	background-size: cover;
+}
+
+/* end of header */
+
+/* start of nav */
+
+.nav-menu {
+	background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5));
+	padding: 30px;
+	transition: all 0.7s;
+}
+
+.menu-item {
+	font-size: 13px;
+	letter-spacing: 1px;
+	color: #eee;
+	transition: color 0.05s;
+}
+
+.nav-active {
+	color: #70aed2;
+}
+
+.menu-item:hover {
+	color: #70aed2;
+}
+
+/* hamburger lines for collapse nav */
+.line1,
+.line2,
+.line3 {
+	width: 23px;
+	height: 3px;
+	margin: 5px;
+	transition: all 0.4s;
+}
+
+.change .line1 {
+	transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.change .line2 {
+	opacity: 0;
+}
+
+.change .line3 {
+	transform: rotate(45deg) translate(-5px, -6px);
+}
+
+/* custom nav bar -- have it reduce on scrolling */
+/* decrease padding on top and bottom */
+.custom-navbar {
+	padding: 5px 30px;
+	background: linear-gradient(rgba(0, 0, 0.6), rgba(0, 0, 0, 0.7));
+}
+
+/* banner */
+
+/* items are positioned top and left --- positions are defined from top and left of the page but then transform element according to its current element */
+.banner {
+	position: absolute; /* allows element to jump out from the normal flow*/
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	/* now no longer right hand side -- becuase position absolute takes up position to display element */
+	width: 80%;
+}
+
+.banner-heading {
+	animation-name: anim;
+	animation-duration: 2s;
+}
+
+.banner-par {
+	animation-name: anim;
+	animation-duration: 2s;
+	animation-delay: 0.5s;
+	animation-fill-mode: backwards;
+}
+
+@keyframes anim {
+	0% {
+		transform: translateX(-100px);
+		opacity: 0;
+	}
+
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+/* end of banner */
+
+/* mission */
+
+.mission {
+	background: #151f20;
+}
+
+.underline {
+	width: 150px;
+	border: 3px solid #eee;
+	margin: auto; /* puts into the center */
+}
+
+.fromLeft {
+	animation-name: fromLeft;
+	animation-duration: 3s;
+}
+
+.fromRight {
+	animation-name: fromRight;
+	animation-duration: 3s;
+}
+
+@keyframes fromLeft {
+	0% {
+		transform: translateX(-120px);
+		opacity: 0;
+	}
+
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+@keyframes fromRight {
+	0% {
+		transform: translateX(30px);
+		opacity: 0;
+	}
+
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+/* end of mission */
+
+/* collection */
+
+.card-shadow {
+	box-shadow: 5px 8px 20px #444;
+}
+
+.heading {
+	position: absolute;
+	top: 70%; /* move it down */
+	right: 0; /* on right hand side of card */
+	font-size: 14px;
+	letter-spacing: 1px;
+	background: #222;
+	width: 70%;
+	cursor: pointer;
+	opacity: 0.8;
+	transition: all 0.5s;
+}
+
+.heading:hover {
+	opacity: 1;
+}
+
+/* end of collection */
+
+/* gallery */
+
+.underline-dark {
+	width: 150px;
+	border: 3px solid #888;
+	margin: auto; /* puts into the center */
+}
+
+.gallery-list-item {
+	color: #777;
+	cursor: pointer;
+	user-select: none;
+}
+
+.active-item {
+	color: #70aed2;
+}
+
+/* end gallery */
+
+/* customers */
+
+.customers {
+	background-color: #151f20;
+}
+
+/* end of customers */
+
+/* pricing */
+.card-1,
+.card-2,
+.card-3 {
+	background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.5)),
+		url("images/pricing-card-bg.jpeg") center no-repeat;
+	background-size: cover;
+	box-shadow: 7px 18px 50px #555;
+}
+
+.card-list-item {
+	border-bottom: 1px groove #eee;
+	width: 55%;
+	margin: auto;
+}
+
+.price-card-button {
+	background-color: #f5593d;
+	width: 130px;
+	border-radius: 25px;
+	box-shadow: 5px 8px 18px #000;
+	transition: all 0.2s;
+}
+
+.price-card-button:hover {
+	background: #f9793d;
+	transform: translateY(-2px);
+}
+
+.moveFromLeft {
+	animation-name: moveFromLeft;
+	animation-duration: 2s;
+}
+
+.moveFromRight {
+	animation-name: moveFromRight;
+	animation-duration: 2s;
+}
+
+.moveFromBottom {
+	animation-name: moveFromBottom;
+	animation-duration: 2s;
+}
+
+@keyframes moveFromLeft {
+	0% {
+		transform: translateX(-100px);
+		opacity: 0;
+	}
+
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+@keyframes moveFromRight {
+	0% {
+		transform: translateX(100px);
+		opacity: 0;
+	}
+
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+@keyframes moveFromBottom {
+	0% {
+		transform: translateY(100px);
+		opacity: 0;
+	}
+
+	100% {
+		transform: translateX(0);
+		opacity: 1;
+	}
+}
+
+/* end of pricing */
+
+/* contact */
+
+.contact {
+	/* 105 deg is the size of the corners are split 90 would be 2 equal or perpendicular*/
+	background: linear-gradient(
+			105deg,
+			rgba(21, 31, 32, 1) 0%,
+			rgba(21, 31, 32, 0.95) 50%,
+			/* 50 shows that half ot he background will be dark 75% would be all */
+				transparent 50%
+		),
+		url(images/form-img.jpeg) center center no-repeat;
+	background-size: cover;
+}
+
+.input {
+	background: transparent;
+	border-color: transparent; /* border only at bottom */
+	border-bottom: 2px solid #ccc;
+	border-radius: 0; /* border radius is assigned automtically here remove */
+	transition: all 0.8s;
+}
+
+.input:focus {
+	background: transparent;
+	border-color: transparent; /* border only at bottom */
+	box-shadow: none;
+	color: #fff;
+	border-bottom: 2px solid #f5593d;
+}
+
+.submit-button {
+	background: #f5593d;
+	color: #eee;
+	transition: all 0.3s;
+}
+
+.submit-button:hover {
+	background: #f9793d;
+	transform: translateY(-3px);
+}
+
+.label-contact {
+	color: white;
+}
+/*
+.label {
+	color: #777;
+	display: block;
+	margin-top: -70px;
+	margin-left: 4px;
+	font-size: 13px;
+	transition: all 0.3s;
+}*/
+
+/* hide label to start
+  select input element, placeholder-shown define styles while placeholder is showing 
+  here we select next immediate sibling + --- label */
+
+.input:placeholder-shown + .label {
+	transform: translate(20px, 20px);
+	opacity: 0;
+	visibility: hidden;
+}
+
+/* for smaller sizes */
+@media (max-width: 992px) {
+	.contact {
+		background: linear-gradient(rgba(21, 31, 32, 1), rgba(21, 31, 32, 0.95));
+	}
+
+	.contact-form {
+		width: 80%; /* decrease widht size */
+		margin: auto; /* put in th emiddle with margin: 0  im the middle */
+	}
+}
+
+/* end of contact */
+
+/* footer */
+.footer-link {
+	color: #eee;
+	font-size: 13px;
+	transition: all 0.3s;
+}
+
+.footer-link:hover {
+	color: #70aed2;
+	text-decoration: none;
+}
+/* end of footer */
