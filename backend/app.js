@@ -27,6 +27,7 @@ db.connect((err) => {
 });
 global.db = db;
 // bring in routes
+const accomplishmentRoutes = require('./routes/accomplishment');
 const authRoutes = require('./routes/auth');
 const projectRoutes = require('./routes/project');
 const typeRoutes = require('./routes/type');
@@ -55,6 +56,7 @@ app.use(cookieParser());
 app.use(expressValidator());
 app.use(cors());
 
+ app.use('/api', accomplishmentRoutes);
  app.use('/api', authRoutes);
  app.use('/api', projectRoutes);
  app.use('/api', typeRoutes);

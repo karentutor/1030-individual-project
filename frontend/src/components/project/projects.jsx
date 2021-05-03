@@ -109,66 +109,77 @@ class Projects extends Component {
 			return (
 				<>
 					<section className="bg-secondary">
-					<br />
-					<br />
-					<br />
-					<div className="container">
-							<h3 className="text-white">There are no things in the database.</h3>
-							<br /><br />
-						<Link to={`/project/${id}`} className="btn btn-raised btn-warning">
+						<br />
+						<br />
+						<br />
+						<div className="container">
+							<h3 className="text-white">
+								There are no things in the database.
+							</h3>
+							<br />
+							<br />
+							<Link
+								to={`/project/${id}`}
+								className="btn btn-raised btn-warning"
+							>
 								Create a new project item
-						</Link>
-							<br /><br />
+							</Link>
+							<br />
+							<br />
 						</div>
-						</section>
+					</section>
 				</>
 			);
 		return (
 			<>
-				<br />
-				<br />
-				<br />
-				<div className="container">
-					<div className="col offset-3">
+				<section className="bg-secondary">
+					<br />
+					<br />
+					<br />
+					<div className="container">
+						{isAuthenticated() && isAuthenticated().user.role === 'admin' &&
+							<div className="col offset-3">
+								<div className="row">
+									<Link
+										to={`/project/${id}`}
+										className="btn btn-raised btn-warning btn-sm"
+									>
+										Create a new project item
+								</Link>
+								</div>
+							</div>
+						}
+						<br />
 						<div className="row">
-							<Link
-								to={`/project/${id}`}
-								className="btn btn-raised btn-warning btn-sm"
-							>
-								Create a new project item
-							</Link>
+							<div className="col-3">
+								<ListGroup
+									items={types}
+									selectedItem={this.state.selectedType}
+									textProperty="type"
+									valueProperty={"_id"}
+									onItemSelect={this.handleTypeSelect}
+								/>
+							</div>
+							<div className="col">
+								<p className="text-white">Showing {totalCount} thing(s) in the database.</p>
+								<ThingTable
+									things={things}
+									sortColumn={sortColumn}
+									onDelete={this.handleDelete}
+									onSort={this.handleSort}
+								/>
+								<Pagination
+									itemsCount={totalCount}
+									pageSize={pageSize}
+									currentPage={currentPage}
+									onPageChange={this.handlePageChange}
+								/>
+							</div>
 						</div>
 					</div>
 					<br />
-					<div className="row">
-						<div className="col-3">
-							<ListGroup
-								items={types}
-								selectedItem={this.state.selectedType}
-								textProperty="type"
-								valueProperty={"_id"}
-								onItemSelect={this.handleTypeSelect}
-							/>
-						</div>
-						<div className="col">
-							<p>Showing {totalCount} thing(s) in the database.</p>
-							<ThingTable
-								things={things}
-								sortColumn={sortColumn}
-								onDelete={this.handleDelete}
-								onSort={this.handleSort}
-							/>
-							<Pagination
-								itemsCount={totalCount}
-								pageSize={pageSize}
-								currentPage={currentPage}
-								onPageChange={this.handlePageChange}
-							/>
-						</div>
-					</div>
-				</div>
-				<br />
-				<br />
+					<br />
+				</section>
 			</>
 		);
 	}

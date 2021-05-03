@@ -59,6 +59,7 @@ class NewProject extends Component {
      };
 
     newProjectForm = (title, description, completed, type) => (
+        <>
         <form>
             <div className="form-group">
                 <h5 className="text-white">Title</h5>
@@ -107,7 +108,11 @@ class NewProject extends Component {
             >
                 Create Project
             </button>
+                    <br /><br /><br />
+
         </form>
+                <br /><br /><br />
+        </>
     );
 
     render() {

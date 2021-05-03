@@ -1,7 +1,7 @@
 import React from 'react';
 import Form from '../common/form';
 import Joi from 'joi-browser';
-import {addEntry} from '../../services/entryService'
+//import {addEntry} from '../../services/entryService'
 import { toast } from 'react-toastify';
 
 class ContactForm  extends Form {
@@ -26,7 +26,7 @@ class ContactForm  extends Form {
 
     handleAdd = async data => { 
         try {
-            await addEntry(data);
+           // await addEntry(data);
             window.location = '/';
             toast.success('Success - we will respond shortly')
 
