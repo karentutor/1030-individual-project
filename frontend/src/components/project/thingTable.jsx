@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import Table from "../common/table";
-
+import { Link } from 'react-router-dom';
+import {isAuthenticated} from '../../auth'
 // add column title and label
 class ThingTable extends Component {
+
   columns = [
-    { path: "title", label: "Title" },
+    {
+      path: "title", label: "Title", content: thing => <Link to={`/project/${thing._id}`}>{thing.title}</Link>
+    },
     { path: "description", label: "Description" },
     { path: "type", label: "Type" },
-    { path: "completed", label: "Completed" },
-    {
+    { path: "completed", label: "Completed" },{
       key: "delete",
       content: thing => (
         <button
@@ -18,8 +21,9 @@ class ThingTable extends Component {
           Delete
         </button>
       )
-    }
+    }    
   ];
+
 
   render() {
     const { things, onSort, sortColumn } = this.props;

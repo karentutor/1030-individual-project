@@ -1,20 +1,21 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import {isAuthenticated} from '../../auth'
-import {create} from './apiPortfolio'
+import React, { Component } from "react";
+import { isAuthenticated } from "../../auth";
+import { create } from "./apiProject";
+import { Redirect } from "react-router-dom";
 
-class Portfolio extends Component {
-        constructor() {
+class NewProject extends Component {
+    constructor() {
         super();
         this.state = {
             title: "",
-            description: "", //first name
-            completed: "",  //last name
+            description: "",
+            completed: '',
+            type: '',
             error: "",
             user: {},
             fileSize: 0,
             loading: false,
-            redirectPortfolio: false
+            redirectProject: false
         };
     }
 
@@ -23,29 +24,12 @@ class Portfolio extends Component {
         this.setState({ user: isAuthenticated().user });
     }
 
-    isValid = () => {
-        const { fName, lName, gender, dob,  address, pNumber, email, hCard, information, fileSize } = this.state; //added lname
-        if (fileSize > 100000) {
-            this.setState({
-                error: "File size should be less than 100kb",
-                loading: false
-            });
-            return false;
-        }
-
-        //lname added below
-        if (fName.length === 0 || lName.length === 0 || gender.length === 0 || dob.length === 0 || address.length === 0 || pNumber.length === 0 || email.length === 0 || hCard.length === 0 ||information.length === 0) {
-            this.setState({ error: "All fields are required", loading: false });
-            return false;
-        }
-        return true;
-    };
-
     handleChange = name => event => {
         this.setState({ error: "" });
-        const value = event.target.value;
+        const value =
+            name === "photo" ? event.target.files[0] : event.target.value;
 
-        const fileSize = 0;
+        const fileSize = name === "photo" ? event.target.files[0].size : 0;
         this.formData.set(name, value);
         this.setState({ [name]: value, fileSize });
     };
@@ -54,31 +38,30 @@ class Portfolio extends Component {
         event.preventDefault();
         this.setState({ loading: true });
 
-        if (this.isValid()) {
+        // if (this.isValid()) {
             const userId = isAuthenticated().user._id;
             const token = isAuthenticated().token;
-
 
             create(userId, token, this.formData).then(data => {
                 if (data.error) this.setState({ error: data.error });
                 else {
                     this.setState({
+                        title: '',
+                        description: '',
+                        completed: '',
+                        type : '',
                         loading: false,
-                        title: "",
-                        description: "",
-                        type: "",
-                        completed: "",
-                        redirectToPatient: true
+                        redirectToProject: true
                     });
                 }
             });
-        }
-    };
+    //    }
+     };
 
-    newPortfolioForm = (title, description, type, completed) => (
+    newProjectForm = (title, description, completed, type) => (
         <form>
             <div className="form-group">
-                <label className="text-muted">Project Title</label>
+                <h5 className="text-white">Title</h5>
                 <input
                     onChange={this.handleChange("title")}
                     type="text"
@@ -86,10 +69,10 @@ class Portfolio extends Component {
                     value={title}
                 />
             </div>
-
+            
             <div className="form-group">
-                <label className="text-muted">Project Description</label>
-                <input
+         <h5 className="text-white">Description</h5>
+                <textarea
                     onChange={this.handleChange("description")}
                     type="text"
                     className="form-control"
@@ -98,21 +81,7 @@ class Portfolio extends Component {
             </div>
 
             <div className="form-group">
-                <label className="text-muted">Project Type</label>
-
-                <select class="form-select" aria-label="Default select example" onChange={this.handleChange("type")} className="form-control"
-                    value={type}>
-                <option selected>Select Type</option>
-                <option value="1">Static website</option>
-                <option value="2">Social Media Website</option>
-              </select>
-               
-            </div>
-
-            
-
-            <div className="form-group">
-                <label className="text-muted">Completed</label>
+         <h5 className="text-white">Completed</h5>
                 <input
                     onChange={this.handleChange("completed")}
                     type="date"
@@ -120,14 +89,24 @@ class Portfolio extends Component {
                     value={completed}
                 />
             </div>
-            
+
+                 <div className="form-group">
+         <h5 className="text-white">Project Type</h5>
+                <select class="form-select" aria-label="Default select example" onChange={this.handleChange("type")} className="form-control"
+                    value={type}>
+                <option selected>Select Type</option>
+                <option value="1">Static Website</option>
+                <option value="2">Social Media Website</option>
+              </select>
+               
+            </div>
+
             <button
                 onClick={this.clickSubmit}
-                className="btn btn-raised btn-primary"
+                className="btn btn-raised btn-warning"
             >
-                Create Portfolio Item
+                Create Project
             </button>
-            <br /><br /><br />
         </form>
     );
 
@@ -137,20 +116,20 @@ class Portfolio extends Component {
             description,
             type,
             completed,
-            user,
             error,
             loading,
-            redirectToPortfolio
+            redirectToProject
         } = this.state;
 
-        if (redirectToPortfolio) {
-            return <Redirect to={`/portfolio`} />;
+        if (redirectToProject) {
+            return <Redirect to={`/projects`} />;
         }
 
         return (
-            <div className="container create-portfolio">
-                <br /><br />
-                <h2 className="mt-5 mb-5">Create a new project</h2>
+            <section className="bg-secondary">
+                <div className="container">
+                    <br /><br /><br />
+                <h2 className="mt-5 mb-5 text-white">Create a new project</h2>
                 <div
                     className="alert alert-danger"
                     style={{ display: error ? "" : "none" }}
@@ -166,11 +145,11 @@ class Portfolio extends Component {
                     ""
                 )}
 
-                {this.newPortfolioForm(title, description, type, completed)}
-            </div>
+                {this.newProjectForm(title, description, completed, type)}
+                </div>
+                </section>
         );
     }
-
 }
- 
-export default Portfolio;
+
+export default NewProject;

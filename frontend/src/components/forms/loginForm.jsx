@@ -3,6 +3,7 @@ import Form from "../common/form";
 import Joi from "joi-browser";
 import { authenticate, signin } from "../../auth";
 import { toast } from "react-toastify";
+import { Redirect } from 'react-router-dom';	
 
 class LoginForm extends Form {
 	state = {
@@ -28,8 +29,9 @@ class LoginForm extends Form {
 			} else {
 				// authenticate
 				authenticate(data, () => {
-					//window.location = "/"; // causes a full reload to remount app
+					window.location = "/"; // causes a full reload to remount app
 					toast.success("Success - you have logged in");
+					
 				});
 			}
 		});

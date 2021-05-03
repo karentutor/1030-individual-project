@@ -28,9 +28,8 @@ db.connect((err) => {
 global.db = db;
 // bring in routes
 const authRoutes = require('./routes/auth');
-const portfolioRoutes = require('./routes/portfolio');
+const projectRoutes = require('./routes/project');
 const typeRoutes = require('./routes/type');
-console.log('called');
 // const recordRoutes = require('./routes/record');
 // const userRoutes = require('./routes/user');
 // const summaryRoutes = require('./routes/summary');
@@ -57,7 +56,7 @@ app.use(expressValidator());
 app.use(cors());
 
  app.use('/api', authRoutes);
- app.use('/api', portfolioRoutes);
+ app.use('/api', projectRoutes);
  app.use('/api', typeRoutes);
 // app.use('/api', recordRoutes);
 // app.use('/api', userRoutes);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {NavLink} from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 class NavBar  extends Component {
     
@@ -39,7 +39,7 @@ class NavBar  extends Component {
             <ul className="navbar-nav">
               <li className="nav-item"><NavLink className="nav-link nav-active mr-2 menu-item" to="/">Home</NavLink></li>
               <li className="nav-item"><NavLink className="nav-link nav-active mr-2 menu-item" to="/services">Services</NavLink></li>
-              <li className="nav-item"><NavLink className="nav-link nav-active mr-2 menu-item" to="/portfolio">Portfolio</NavLink></li>
+              <li className="nav-item"><NavLink className="nav-link nav-active mr-2 menu-item" to="/projects">Portfolio</NavLink></li>
               <li className="nav-item"><NavLink className="nav-link nav-active mr-2 menu-item" to="/resume">Resume</NavLink></li>
               <li className="nav-item"><NavLink className="nav-link nav-active mr-2 menu-item" to="/prices">Prices</NavLink></li>
               <li className="nav-item"><NavLink className="nav-link nav-active mr-2 menu-item" to="/contact">Contact</NavLink></li>
@@ -47,9 +47,7 @@ class NavBar  extends Component {
               <li className="nav-item"><NavLink style={{ color: 'red' }} className="nav-link nav-active mr-2 menu-item" to="/users">Register</NavLink></li></>}    
               {user &&
                 <>
-                <li className="nav-item"><NavLink className="nav-link nav-active mr-2 menu-item" to="/entries">Entries</NavLink></li>
-                <li className="nav-item"><NavLink className="nav-link nav-active mr-2 menu-item" to="/profile">{user.name}</NavLink></li>
-                <li className="nav-item"><NavLink style={{ color: 'red' }} className="nav-link nav-active mr-2 menu-item" to="/logout">Logout</NavLink></li>
+                <li className="nav-item"><NavLink style={{ color: 'red' }} className="nav-link nav-active mr-2 menu-item" to="/logout" >Logout</NavLink></li>
                 </>}    
             </ul>
           </div>

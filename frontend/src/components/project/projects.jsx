@@ -4,17 +4,17 @@ import { isAuthenticated } from "../../auth";
 import ThingTable from "./thingTable";
 import ListGroup from "../common/listGroup";
 import Pagination from "../common/pagination";
-import { getThings, remove } from "./apiPortfolio";
-import { getTypes } from "./apiPortfolio";
+import { getThings, remove } from "./apiProject";
+import { getTypes } from "./apiProject";
 import { paginate } from "../../util/paginate";
 import _ from "lodash";
 
-class Portfolio extends Component {
+class Projects extends Component {
 	state = {
 		things: [],
 		types: [],
 		currentPage: 1,
-		pageSize: 1,
+		pageSize: 5,
 		sortColumn: { path: "title", order: "asc" },
 	};
 
@@ -77,7 +77,6 @@ class Portfolio extends Component {
 			things: allThings,
 		} = this.state;
 
-		console.log(selectedType);
 		const filtered =
 			selectedType && selectedType._id
 				? allThings.filter((i) => i.type === selectedType.type)
@@ -104,27 +103,43 @@ class Portfolio extends Component {
 
 		const { totalCount, things } = this.getPagedData();
 
+		const id = "new";
+
 		if (count === 0)
 			return (
 				<>
-					<br />< br /><br />
-					<p>There are no things in the database.</p>
-						<Link
-							to={`/portfolio/new`}
-							className="btn btn-raised btn-primary btn-sm"
-						>
-							Create a new portfolio item
+					<section className="bg-secondary">
+					<br />
+					<br />
+					<br />
+					<div className="container">
+							<h3 className="text-white">There are no things in the database.</h3>
+							<br /><br />
+						<Link to={`/project/${id}`} className="btn btn-raised btn-warning">
+								Create a new project item
 						</Link>
+							<br /><br />
+						</div>
+						</section>
 				</>
 			);
 		return (
 			<>
 				<br />
 				<br />
-				<button>
-				click me
-				</button>
+				<br />
 				<div className="container">
+					<div className="col offset-3">
+						<div className="row">
+							<Link
+								to={`/project/${id}`}
+								className="btn btn-raised btn-warning btn-sm"
+							>
+								Create a new project item
+							</Link>
+						</div>
+					</div>
+					<br />
 					<div className="row">
 						<div className="col-3">
 							<ListGroup
@@ -157,40 +172,6 @@ class Portfolio extends Component {
 			</>
 		);
 	}
-	// render() {
-
-	//   const { pageSize, currentPage, sortColumn } = this.state;
-
-	//   const { totalCount, data: things } = this.getPagedData();
-
-	//   return (
-	//     <div className="row">
-	//       <div className="col-3">
-	//         <ListGroup
-	//           items={this.state.types}
-	//           selectedItem={this.state.selectedType}
-	//           onItemSelect={this.handleTypeSelect}
-	//         />
-	//       </div>
-	//       <div className="col">
-	//         <p>Showing {totalCount} things in the database.</p>
-	//         <ThingsTable
-	//           things={things}
-	//           sortColumn={sortColumn}
-	//           onLike={this.handleLike}
-	//           onDelete={this.handleDelete}
-	//           onSort={this.handleSort}
-	//         />
-	//         <Pagination
-	//           itemsCount={totalCount}
-	//           pageSize={pageSize}
-	//           currentPage={currentPage}
-	//           onPageChange={this.handlePageChange}
-	//         />
-	//       </div>
-	//     </div>
-	//   );
-	// }
 }
 
-export default Portfolio;
+export default Projects;

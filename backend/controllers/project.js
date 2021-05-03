@@ -6,9 +6,10 @@ const {
 	createSetQuery,
 	createValString,
 } = require("../helpers");
-const { portfolioQuery, portfolioQueryJoin } = require("../helpers/queries");
+const { projectQuery, projectQueryJoin } = require("../helpers/queries");
 
-exports.createPortfolio = (req, res, next) => {
+exports.createProject = (req, res, next) => {
+
 	let form = new formidable.IncomingForm();
 	form.keepExtensions = true;
 	form.parse(req, (err, fields, files) => {
@@ -24,11 +25,8 @@ exports.createPortfolio = (req, res, next) => {
 		const postedBy = req.profile._id;
 		const role = req.profile.role;
 
-		if (files.photo) {
-			//            patient.photo.data = fs.readFileSync(files.photo.path);
-			//           patient.photo.contentType = files.photo.type;
-		}
-		let query = `INSERT INTO portfolio (${keyQuery},postedBy,role) VALUES (${valQuery}, ${postedBy}, '${role}')`;
+		
+		let query = `INSERT INTO project (${keyQuery},postedBy,role) VALUES (${valQuery}, ${postedBy}, '${role}')`;
 		
 		db.query(query, (err, data) => {
 			if (err) {
@@ -39,9 +37,11 @@ exports.createPortfolio = (req, res, next) => {
 	});
 };
 
-exports.deletePortfolio = (req, res) => {
-	let _id = req.portfolio.portfolio_id;
-	let query = `DELETE FROM portfolio WHERE _id=${_id}`;
+exports.deleteProject = (req, res) => {
+
+	const _id = req.project._id;
+
+	let query = `DELETE FROM project WHERE _id=${_id}`;
 
 	db.query(query, (err, data) => {
 		if (err) {
@@ -50,7 +50,7 @@ exports.deletePortfolio = (req, res) => {
 //		return res.status(200).json({
 //			message: "success",
 		
-	let query1 = "SELECT p._id, p.title, p.description, t.type, p.completed FROM `portfolio` as `p` INNER JOIN `types` as `t` ON t._id=p.type";
+	let query1 = "SELECT p._id, p.title, p.description, t.type, p.completed FROM `project` as `p` INNER JOIN `types` as `t` ON t._id=p.type";
 
 	db.query(query1, (err, data) => {
 		if (err) {
@@ -61,9 +61,9 @@ exports.deletePortfolio = (req, res) => {
 	});
 };
 
-exports.getPortfolio = async (req, res) => {
+exports.getProjects = async (req, res) => {
 
-	let query = "SELECT p._id, p.title, p.description, t.type, p.completed FROM `portfolio` as `p` INNER JOIN `types` as `t` ON t._id=p.type";
+	let query = "SELECT p._id, p.title, p.description, t.type, p.completed, p.role FROM `project` as `p` INNER JOIN `types` as `t` ON t._id=p.type";
 
 	db.query(query, (err, data) => {
 		if (err) {
@@ -109,9 +109,9 @@ exports.photo = (req, res, next) => {
 // 	});
 // };
 
-exports.portfolioById = (req, res, next, id) => {
+exports.projectById = (req, res, next, id) => {
 	let query =
-		`SELECT ${portfolioQueryJoin}, t.type FROM portfolio as p INNER JOIN types as t ON p.type = t._id WHERE p._id =` +
+		`SELECT ${projectQueryJoin}, t.type  from project as p INNER JOIN types as t on p.type = t._id WHERE p._id =` +
 		id;
 
 	db.query(query, (err, result) => {
@@ -119,17 +119,17 @@ exports.portfolioById = (req, res, next, id) => {
 			return res.status(500).send(err);
 		} else {
 			let data = JSON.parse(JSON.stringify(result[0]));
-			req.portfolio = data; // adds profile object in req with user info
+			req.project = data; // adds profile object in req with user info
 			next();
 		}
 	});
 };
 
-exports.singlePortfolio = (req, res) => {
-	return res.json(req.portfolio);
+exports.singleProject = (req, res) => {
+	return res.json(req.project);
 };
 
-exports.updatePortfolio = (req, res, next) => {
+exports.updateProject = (req, res, next) => {
 	let form = new formidable.IncomingForm();
 	form.keepExtensions = true;
 	form.parse(req, (err, fields, files) => {
@@ -139,30 +139,28 @@ exports.updatePortfolio = (req, res, next) => {
 			});
 		}
 		// update patient with corrected fields
-		const newHCard = fields.hCard;
-		let portfolio = req.portfolio;
+		let project = req.project;
+		const _id = req.project._id;
 
 		//update patient data with new information -- note only new information 'changed on form frone end' will be updated
-		portfolio = _.extend(portfolio, fields);
-		portfolio.updated = Date.now();
-		const oldHCard = req.portfolio.portfolio_id;
+		project = _.extend(project, fields);
+		let dt = new Date();
+		project.updated = dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate();
 
-        //remove uneeded items of object using lodash
-        let obj = {...portfolio};
-        obj = _.omit(obj, ['user_name', 'updated', 'portfolio_id']);
-		obj.hCard = newHCard;
-		//add and delete extraneous data for creating the sql query
+		//remove uneeded items of object using lodash
+		let obj = { ...project };
+		obj = _.omit(obj, ['created']);
+	
+		// 	//add and delete extraneous data for creating the sql query
 		
 		const setQuery = createSetQuery(obj);
-		if (files.photo) {
-			//	patient.photo.data = fs.readFileSync(files.photo.path);
-			//	patient.photo.contentType = files.photo.type;
-		}
+		// 	if (files.photo) {
+		// 		//	patient.photo.data = fs.readFileSync(files.photo.path);
+		// 		//	patient.photo.contentType = files.photo.type;
+		// 	}
 
-		//let query = `UPDATE patients SET fName='${fName}', lName='${lName}',gender='${gender}',dob='${dob}',address='${address}',pNumber='${pNumber}',email='${email}',information='${information}', postedBy=${postedBy} WHERE hCard=${patient_id}`;
-		let query = `UPDATE portfolio SET ${setQuery} WHERE hCard=${oldHCard}`;
-		let query1 = `SELECT * FROM portfolio WHERE hCard=${newHCard}`;
-
+		let query = `UPDATE project SET ${setQuery} WHERE _id=${_id}`;
+		let query1 = `SELECT * FROM project WHERE _id=${_id}`;
 		db.query(query, (err, data) => {
 			if (err) {
 				return res.status(500).send(err);

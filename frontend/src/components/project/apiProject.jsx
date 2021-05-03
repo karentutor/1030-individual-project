@@ -1,20 +1,19 @@
-export const create = (userId, token, portfolio) => {
-    return fetch(`${process.env.REACT_APP_API_URL}/portfolio/new/${userId}`, {
+export const create = (userId, token, patient) => {
+    return fetch(`${process.env.REACT_APP_API_URL}/project/new/${userId}`, {
         method: "POST",
         headers: {
             Accept: "application/json",
             Authorization: `Bearer ${token}`
         },
-        body: portfolio
+   body: patient
     })
         .then(response => {
             return response.json();
         })
         .catch(err => console.log(err));
 };
-
 export const getThings = () => {
-    return fetch(`${process.env.REACT_APP_API_URL}/portfolio`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/project`, {
         method: "GET"
     })
         .then(response => {
@@ -34,7 +33,7 @@ export const getTypes = () => {
 };
 
 export const remove = (portfolioId, token) => {
-    return fetch(`${process.env.REACT_APP_API_URL}/portfolio/${portfolioId}`, {
+    return fetch(`${process.env.REACT_APP_API_URL}/project/${portfolioId}`, {
         method: "DELETE",
         headers: {
             Accept: "application/json",
@@ -47,3 +46,31 @@ export const remove = (portfolioId, token) => {
         })
         .catch(err => console.log(err));
 };
+
+export const singleProject = projectId => {
+
+    return fetch(`${process.env.REACT_APP_API_URL}/project/${projectId}`, {
+        method: "GET"
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+
+export const update = (projectId, token, project) => {
+    
+    return fetch(`${process.env.REACT_APP_API_URL}/project/${projectId}`, {
+        method: "PUT",
+        headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`
+        },
+        body: project
+    })
+        .then(response => {
+            return response.json();
+        })
+        .catch(err => console.log(err));
+};
+

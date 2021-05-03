@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import auth from './services/authService';
+import { isAuthenticated } from './auth';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import ContactForm from './components/forms/contactForm';
 import Footer from './components/core/footer';
 import Home from './components/home/home';
 import NavBar from './components/core/navBar';
-import Portfolio from './components/portfolio/portfolio';
-import NewPortfolio from './components/portfolio/newPortfolio';
+import Project from './components/project/project';
+import EditProject from './components/project/editProject';
+import NewProject from './components/project/newProject';
+import Projects from './components/project/projects';
 import Prices from './components/prices';
 import ProtectedRoute from './components/common/protectedRoute';
 import Register from './components/register';
@@ -26,7 +28,7 @@ class App extends Component {
   state = {};
 
   componentDidMount() {
-    const user = auth.getCurrentUser();
+    const user = isAuthenticated() ? isAuthenticated().user : null;
     this.setState({ user });
   }
 
@@ -41,8 +43,10 @@ class App extends Component {
         <Switch>
           <Route path="/home" component={Home} />
           <Route path="/services" component={Services} />
-          <Route exact path="/portfolio/new" component={NewPortfolio} />
-          <Route exact path="/portfolio" component={Portfolio} />
+          <Route exact path="/project/edit/:projectId" component={EditProject} />
+          <Route exact path="/project/new" component={NewProject} />
+          <Route exact path="/project/:projectId" component={Project} />
+          <Route exact path="/projects" component={Projects} />
           <Route path="/prices" component={Prices} />
           <Route path="/contact" component={ContactForm} />
           <Route path="/resume" component={Resume} />
