@@ -1,4 +1,9 @@
-# 1030-individual-project
+## 1030-individual-project
+
+# TO RUN
+cd  into frontend npm run start
+cd  into backend npm run start
+
 https://github.com/karentutor/1030-individual-project
 Register a user<br />
 Login<br />
