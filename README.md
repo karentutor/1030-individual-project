@@ -6,6 +6,7 @@ Routes are protected<br />
 Shows or displays navs based on login status<br />
 CRUD projects (portfolio) and accomplishments (resume)
 Special thanks for George Lomidze and Bootstrap [various] from which the design of this website html / css was made.<br />
+I have the start of a useful framework -- however far too much code repetion and requires a great deal of refactoring to remove repetition and make usable<br />
 
 SQL LINES MAY BE FOUND AT<br />
 backend/controllers/accomplishment : 29, 44, 53, 67, 116, 165,166<br />
