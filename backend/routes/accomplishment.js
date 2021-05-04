@@ -1,10 +1,10 @@
 const express = require('express');
 
 const {
+    accomplishmentById,
     createAccomplishment,
     deleteAccomplishment,
     getAccomplishments,
-    AccomplishmentById,
     singleAccomplishment,
     updateAccomplishment
 } = require('../controllers/accomplishment');
@@ -16,12 +16,11 @@ const { createAccomplishmentAddtoBody, createAccomplishmentValidator } = require
 const router = express.Router();
 
 router.get('/accomplishment', getAccomplishments);
-router.get('/accomplishment/new/', createAccomplishment);
 router.get('/accomplishment/:accomplishmentId', singleAccomplishment);
 router.put('/accomplishment/:accomplishmentId', updateAccomplishment);
 router.post('/accomplishment/new/:userId', createAccomplishment);
 router.delete('/accomplishment/:accomplishmentId', deleteAccomplishment);
-// // any route containing :userId, our app will first execute userById()
+// // // any route containing :userId, our app will first execute userById()
 router.param('userId', userById);
 // // any route containing :postId, our app will first execute postById()
 router.param('accomplishmentId', accomplishmentById);

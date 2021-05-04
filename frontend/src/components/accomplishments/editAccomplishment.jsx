@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { singleProject, update } from "./apiProject";
+import { singleAccomplishment, update } from "./apiAccomplishments";
 import { isAuthenticated } from "../../auth";
 import { Link, Redirect } from "react-router-dom";
 
-class EditProject extends Component {
+class EditAccomplishment extends Component {
 	constructor() {
 		super();
 		this.state = {
@@ -15,14 +15,14 @@ class EditProject extends Component {
 			user: {},
 			fileSize: 0,
 			loading: false,
-			redirectProject: false,
+			redirectAccomplishment: false,
 		};
 	}
 
-	init = (projectId) => {
-		singleProject(projectId).then((data) => {
+	init = (accomplishmentId) => {
+		singleAccomplishment(accomplishmentId).then((data) => {
 			if (data.error) {
-				this.setState({ redirectToProjects: true });
+				this.setState({ redirectToaccomplishments: true });
 			} else {
 				this.setState({
 					title: data.title,
@@ -35,9 +35,9 @@ class EditProject extends Component {
 	};
 
 	componentDidMount() {
-		this.projectData = new FormData();
-		const projectId = this.props.match.params.projectId;
-		this.init(projectId);
+		this.accomplishmentData = new FormData();
+		const accomplishmentId = this.props.match.params.accomplishmentId;
+		this.init(accomplishmentId);
 	}
 
 	isValid = () => {
@@ -61,7 +61,7 @@ class EditProject extends Component {
 		const value = name === "photo" ? event.target.files[0] : event.target.value;
 
 		const fileSize = name === "photo" ? event.target.files[0].size : 0;
-		this.projectData.set(name, value);
+		this.accomplishmentData.set(name, value);
 		this.setState({ [name]: value, fileSize });
 	};
 
@@ -70,10 +70,10 @@ class EditProject extends Component {
 		this.setState({ loading: true });
 
 		if (this.isValid()) {
-			const projectId = this.props.match.params.projectId;
+			const accomplishmentId = this.props.match.params.accomplishmentId;
 			const token = isAuthenticated().token;
 
-			update(projectId, token, this.projectData).then((data) => {
+			update(accomplishmentId, token, this.accomplishmentData).then((data) => {
 				if (data.error) this.setState({ error: data.error });
 				else {
 					this.setState({
@@ -89,10 +89,10 @@ class EditProject extends Component {
 		}
 	};
 
-	editProjectForm = (title, description, completed, type) => (
+	editAccomplishmentForm = (title, description, completed, type) => (
 		<form>
 			<div className="form-group">
-				<label className="text-muted">Title</label>
+				<label className="text-white">Title</label>
 				<input
 					onChange={this.handleChange("title")}
 					type="text"
@@ -102,7 +102,7 @@ class EditProject extends Component {
 			</div>
 
 			<div className="form-group">
-				<label className="text-muted">Description</label>
+				<label className="text-white">Description</label>
 				<textarea
 					onChange={this.handleChange("description")}
 					type="text"
@@ -112,7 +112,7 @@ class EditProject extends Component {
 			</div>
 
 			<div className="form-group">
-				<label className="text-muted">Completed</label>
+				<label className="text-white">Completed</label>
 				<input
 					onChange={this.handleChange("completed")}
 					type="date"
@@ -122,7 +122,7 @@ class EditProject extends Component {
 			</div>
 
 			<div className="form-group">
-				<label className="text-muted">Type</label>
+				<label className="text-white">Type</label>
 
 				<select
 					class="form-select"
@@ -138,7 +138,7 @@ class EditProject extends Component {
 			</div>
 
 			<button onClick={this.clickSubmit} className="btn btn-raised btn-primary">
-				Update Project
+				Update accomplishment
 			</button>
 		</form>
 	);
@@ -153,19 +153,18 @@ class EditProject extends Component {
 			id,
 			message,
 			error,
-			redirectToprojects,
+			redirectToaccomplishments,
 			loading,
 		} = this.state;
 
-		if (redirectToprojects) {
-			return <Redirect to={`/findprojects`} />;
+		if (redirectToaccomplishments) {
+			return <Redirect to={`/resume`} />;
 		}
 
 		return (
-			<div className="container update-project">
-				<h2 className="text-white text-center pt-5">Update project</h2>
-
-				<h3 className="mt-4 mb-4 text-white">{title}</h3>
+			<section className="bg-secondary">
+			<div className="container update-accomplishment">
+					<h2 className="text-white text-center pt-5">Update accomplishment {title}</h2>
 
 				<div
 					className="alert alert-danger"
@@ -178,7 +177,7 @@ class EditProject extends Component {
 					className="alert alert-success"
 					style={{ display: message ? "" : "none" }}
 				>
-					{message} <Link to="/projects"> Return to Portfolio</Link>.
+					{message} <Link to="/resume"> Return to Resume</Link>.
 				</div>
 
 				{loading ? (
@@ -189,38 +188,13 @@ class EditProject extends Component {
 					""
 				)}
 
-				{/* {isAuthenticated().user.role === "admin" &&
-					this.editprojectForm(
-						fName,
-						lName,
-						gender,
-						dob,
-						address,
-						pNumber,
-						email,
-						hCard,
-						information
-					)} */}
-
-				{/* {isAuthenticated().user._id == id &&
-					this.editprojectForm(
-						fName,
-						lName,
-						gender,
-						dob,
-						address,
-						pNumber,
-						email,
-						hCard,
-						information
-					)} */}
-
 				{(isAuthenticated().user._id == id ||
 					isAuthenticated().user.role === "admin") &&
-					this.editProjectForm(title, description, completed, type)}
-			</div>
+					this.editAccomplishmentForm(title, description, completed, type)}
+				</div>
+				</section>
 		);
 	}
 }
 
-export default EditProject;
+export default EditAccomplishment;

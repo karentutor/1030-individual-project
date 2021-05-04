@@ -7,8 +7,7 @@ class Project extends Component {
 	state = {
 		project: "",
 		redirectToHome: false,
-		redirectToSignin: false,
-		test: null,
+		redirectToSignin: false
 	};
 
 	componentDidMount = () => {

@@ -148,6 +148,7 @@ exports.updateProject = (req, res, next) => {
 		project.updated = dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate();
 
 		//remove uneeded items of object using lodash
+	//remove uneeded items of object using lodash
 		let obj = { ...project };
 		obj = _.omit(obj, ['created']);
 	

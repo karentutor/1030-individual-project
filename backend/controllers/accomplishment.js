@@ -8,7 +8,7 @@ const {
 } = require("../helpers");
 const { accomplishmentQuery, accomplishmentQueryJoin } = require("../helpers/queries");
 
-exports.createProject = (req, res, next) => {
+exports.createAccomplishment = (req, res, next) => {
 
 	let form = new formidable.IncomingForm();
 	form.keepExtensions = true;
@@ -26,7 +26,7 @@ exports.createProject = (req, res, next) => {
 		const role = req.profile.role;
 
 		
-		let query = `INSERT INTO accomplishment (${keyQuery},postedBy,role) VALUES (${valQuery}, ${postedBy}, '${role}')`;
+		let query = `INSERT INTO accomplishments (${keyQuery},postedBy,role) VALUES (${valQuery}, ${postedBy}, '${role}')`;
 		
 		db.query(query, (err, data) => {
 			if (err) {
@@ -37,11 +37,11 @@ exports.createProject = (req, res, next) => {
 	});
 };
 
-exports.deleteProject = (req, res) => {
+exports.deleteAccomplishment = (req, res) => {
 
 	const _id = req.accomplishment._id;
 
-	let query = `DELETE FROM accomplishment WHERE _id=${_id}`;
+	let query = `DELETE FROM accomplishments WHERE _id=${_id}`;
 
 	db.query(query, (err, data) => {
 		if (err) {
@@ -50,7 +50,7 @@ exports.deleteProject = (req, res) => {
 //		return res.status(200).json({
 //			message: "success",
 		
-	let query1 = "SELECT p._id, p.title, p.description, t.type, p.completed FROM `accomplishment` as `p` INNER JOIN `types` as `t` ON t._id=p.type";
+	let query1 = "SELECT a._id, a.title, a.description, t.type, a.completed FROM `accomplishments` as `a` INNER JOIN `types` as `t` ON t._id=a.type";
 
 	db.query(query1, (err, data) => {
 		if (err) {
@@ -63,8 +63,10 @@ exports.deleteProject = (req, res) => {
 
 exports.getAccomplishments = async (req, res) => {
 
-	let query = "SELECT p._id, p.title, p.description, t.type, p.completed, p.role FROM `accomplishment` as `p` INNER JOIN `types` as `t` ON t._id=p.type";
 
+	let query = "SELECT a._id, a.title, a.description, t.type, a.completed, a.role FROM `accomplishments` as `a` INNER JOIN `types` as `t` ON t._id=a.type";
+
+    console.log(query);
 	db.query(query, (err, data) => {
 		if (err) {
 			return res.status(500).send(err);
@@ -111,7 +113,7 @@ exports.photo = (req, res, next) => {
 
 exports.accomplishmentById = (req, res, next, id) => {
 	let query =
-		`SELECT ${projectQueryJoin}, t.type  from project as p INNER JOIN types as t on p.type = t._id WHERE p._id =` +
+		`SELECT ${accomplishmentQueryJoin}, t.type  from accomplishments as a INNER JOIN types as t on a.type = t._id WHERE a._id =` +
 		id;
 
 	db.query(query, (err, result) => {
@@ -119,17 +121,17 @@ exports.accomplishmentById = (req, res, next, id) => {
 			return res.status(500).send(err);
 		} else {
 			let data = JSON.parse(JSON.stringify(result[0]));
-			req.project = data; // adds profile object in req with user info
+			req.accomplishment = data; // adds profile object in req with user info
 			next();
 		}
 	});
 };
 
-exports.singleProject = (req, res) => {
-	return res.json(req.project);
+exports.singleAccomplishment = (req, res) => {
+	return res.json(req.accomplishment);
 };
 
-exports.updateProject = (req, res, next) => {
+exports.updateAccomplishment = (req, res, next) => {
 	let form = new formidable.IncomingForm();
 	form.keepExtensions = true;
 	form.parse(req, (err, fields, files) => {
@@ -139,29 +141,29 @@ exports.updateProject = (req, res, next) => {
 			});
 		}
 		// update patient with corrected fields
-		let project = req.project;
-		const _id = req.project._id;
+		let accomplishment = req.accomplishment;
 
-		//update patient data with new information -- note only new information 'changed on form frone end' will be updated
-		project = _.extend(project, fields);
+		const _id = req.accomplishment._id;
+
+	// update patient data with new information -- note only new information 'changed on form frone end' will be updated
+		accomplishment = _.extend(accomplishment, fields);
 		let dt = new Date();
-		project.updated = dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate();
+		accomplishment.updated = dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate();
 
-		//remove uneeded items of object using lodash
-	//remove uneeded items of object using lodash
-		let obj = { ...project };
-		obj = _.omit(obj, ['created']);
+	// 	//remove uneeded items of object using lodash
+	let obj = { ...accomplishment };
+	obj = _.omit(obj, ['created']);
 	
-		// 	//add and delete extraneous data for creating the sql query
+	// 	add and delete extraneous data for creating the sql query
 		
-		const setQuery = createSetQuery(obj);
-		// 	if (files.photo) {
-		// 		//	patient.photo.data = fs.readFileSync(files.photo.path);
-		// 		//	patient.photo.contentType = files.photo.type;
-		// 	}
+	const setQuery = createSetQuery(obj);
+	// 	// 	if (files.photo) {
+	// 	// 		//	patient.photo.data = fs.readFileSync(files.photo.path);
+	// 	// 		//	patient.photo.contentType = files.photo.type;
+	// 	// 	}
 
-		let query = `UPDATE project SET ${setQuery} WHERE _id=${_id}`;
-		let query1 = `SELECT * FROM project WHERE _id=${_id}`;
+		let query = `UPDATE accomplishments SET ${setQuery} WHERE _id=${_id}`;
+	 	let query1 = `SELECT * FROM accomplishments WHERE _id=${_id}`;
 		db.query(query, (err, data) => {
 			if (err) {
 				return res.status(500).send(err);

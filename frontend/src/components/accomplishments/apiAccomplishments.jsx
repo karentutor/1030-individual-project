@@ -1,11 +1,11 @@
-export const create = (userId, token, patient) => {
+export const create = (userId, token, accomplishment) => {
     return fetch(`${process.env.REACT_APP_API_URL}/accomplishment/new/${userId}`, {
         method: "POST",
         headers: {
             Accept: "application/json",
             Authorization: `Bearer ${token}`
         },
-   body: patient
+   body: accomplishment
     })
         .then(response => {
             return response.json();
