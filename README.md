@@ -1,8 +1,13 @@
 ## 1030-individual-project
 
-# TO RUN
-cd  into frontend npm run start
-cd  into backend npm run start
+# TO RUN<br />
+cd  into frontend npm run start<br />
+cd  into backend npm run start<br />
+dump sql.sql in mysql<br />
+admin user is admin@admin.com pass 12345678<br />
+regular user is jack@jack.om pass 12345678<br />
+
+admin has access to admin functions<br />
 
 https://github.com/karentutor/1030-individual-project
 Register a user<br />
